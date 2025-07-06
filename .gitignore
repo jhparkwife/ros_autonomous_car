@@ -1,0 +1,38 @@
+# .gitignore 파일 생성
+cat <<EOF > .gitignore
+# ROS 빌드 파일
+/build/
+/devel/
+/install/
+
+# 캐시 파일
+*.pyc
+__pycache__/
+
+# 로그 파일
+*.log
+*.bag
+
+# 시스템 파일
+.DS_Store
+
+# IDE 설정
+.vscode/
+.idea/
+
+# 빌드 생성 파일
+*.so
+*.o
+*.a
+
+# 문서 생성 파일
+docs/_build/
+
+# 바이너리 파일
+*.bin
+*.exe
+
+# 임시 파일
+*~
+*.tmp
+EOF
