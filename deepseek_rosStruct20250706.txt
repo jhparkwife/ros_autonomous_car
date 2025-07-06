@@ -1,0 +1,36 @@
+lane_follower_pkg/
+├── CMakeLists.txt
+├── package.xml
+├── launch/
+│   ├── lane_follower.launch
+│   ├── integrated_system.launch
+│   └── sensors.launch
+├── scripts/
+│   ├── enhanced_lane_follower.py
+│   ├── navigation_node.py
+│   └── diagnostics_monitor.py
+├── rviz/
+│   ├── enhanced_lane_follower.rviz
+│   └── navigation.rviz
+├── config/
+│   ├── diagnostics.yaml
+│   ├── camera_params.yaml
+│   └── lidar_params.yaml
+├── arduino/
+│   └── arduino_code.ino
+└── nodes/
+    └── system_monitor.py
+==================
+0622qwen
+파일명	위치	설명
+package.xml	~/catkin_ws/src/lane_follower_pkg/package.xml	ROS 패키지 정보 정의
+CMakeLists.txt	~/catkin_ws/src/lane_follower_pkg/CMakeLists.txt	빌드 설정
+lane_follower.launch	~/catkin_ws/src/lane_follower_pkg/launch/lane_follower.launch	전체 시스템 실행 런치 파일
+enhanced_lane_follower.py	~/catkin_ws/src/lane_follower_pkg/scripts/enhanced_lane_follower.py	차선 인식 및 장애물 회피 로직
+navigation_node.py	~/catkin_ws/src/lane_follower_pkg/scripts/navigation_node.py	A* 경로 계획 알고리즘 포함
+diagnostics.yaml	~/catkin_ws/src/lane_follower_pkg/config/diagnostics.yaml	진단 설정 파일
+enhanced_lane_follower.rviz	~/catkin_ws/src/lane_follower_pkg/rviz/enhanced_lane_follower.rviz	RViz 설정 파일
+arduino_code.ino	~/catkin_ws/src/lane_follower_pkg/arduino/arduino_code.ino	아두이노 제어 코드
+install.sh	~/install.sh	설치 스크립트
+run_autonomous_system.sh	~/run_autonomous_system.sh	실행 스크립트
+test_autonomous_system.sh	~/test_autonomous_system.sh	테스트 및 디버깅 스크립트
