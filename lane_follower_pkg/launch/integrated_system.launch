@@ -1,0 +1,19 @@
+<launch>
+  <!-- 센서 노드 -->
+  <include file="$(find lane_follower_pkg)/launch/sensors.launch"/>
+
+  <!-- 자율주행 노드 -->
+  <node name="lane_follower" pkg="lane_follower_pkg" type="enhanced_lane_follower.py" output="screen">
+    <rosparam command="load" file="$(find lane_follower_pkg)/config/camera_params.yaml"/>
+  </node>
+
+  <node name="navigation" pkg="lane_follower_pkg" type="navigation_node.py" output="screen">
+    <rosparam command="load" file="$(find lane_follower_pkg)/config/lidar_params.yaml"/>
+  </node>
+
+  <!-- 아두이노 인터페이스 -->
+  <node name="arduino_interface" pkg="rosserial_python" type="serial_node.py" args="_port:=/dev/ttyACM0 _baud:=57600"/>
+
+  <!-- RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find lane_follower_pkg)/rviz/navigation.rviz"/>
+</launch>
