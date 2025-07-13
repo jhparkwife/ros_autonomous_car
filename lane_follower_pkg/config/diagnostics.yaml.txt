@@ -1,0 +1,204 @@
+# diagnostics.yaml
+# ROS 자율주행 차량 시스템 진단 설정 파일
+
+base_path: "Autonomous Car System"
+
+groups:
+  - name: "Sensors"
+    type: "diagnostic_aggregator/MergeNetworked"
+    path: "Sensors"
+    timeout: 5.0
+    contains:
+      - "Camera Diagnostic"
+      - "LiDAR Diagnostic"
+      - "Arduino Connection"
+
+  - name: "Actuators"
+    type: "diagnostic_aggregator/MergeNetworked"
+    path: "Actuators"
+    timeout: 5.0
+    contains:
+      - "Steering Motor"
+      - "Drive Motor"
+
+analyzed:
+  - name: "Emergency Stop Triggered"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Safety"
+    statustopic: "/emergency_stop/status"
+    message_substring: "STOPPED"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Navigation Failure"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Navigation"
+    statustopic: "/navigation_status"
+    message_substring: "Failed"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Camera Stream Lost"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Camera"
+    statustopic: "/camera/camera_nodelet_manager/status"
+    message_substring: "No image stream"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "LiDAR Stream Lost"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "LiDAR"
+    statustopic: "/velodyne_points/status"
+    message_substring: "No data"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Arduino Communication Error"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Arduino"
+    statustopic: "/rosserial_arduino/connection_status"
+    message_substring: "Disconnected"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Low Battery Warning"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Battery"
+    statustopic: "/battery_monitor/voltage"
+    message_substring: "Low"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "TF Transform Warnings"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Transforms"
+    statustopic: "/tf_message_filter/statistics"
+    message_substring: "High delay"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Image Processing Failures"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Image Processing"
+    statustopic: "/image_processing/status"
+    message_substring: "Error"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Navigation Timeout"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Navigation"
+    statustopic: "/move_base/status"
+    message_substring: "Timed out"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Odometry Error"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Odometry"
+    statustopic: "/odometry/error"
+    message_substring: "High drift"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "System Watchdog"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Watchdog"
+    statustopic: "/watchdog/system_health"
+    message_substring: "Unhealthy"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Node Crash Detected"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Node Manager"
+    statustopic: "/node_monitor/node_crash"
+    message_substring: "Crash detected"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Communication Loss"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Communications"
+    statustopic: "/communication/lost_packets"
+    message_substring: "Packet loss"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Sensor Data Timeout"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Sensors"
+    statustopic: "/sensor_monitor/data_timeout"
+    message_substring: "Data timeout"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Motor Driver Overheat"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Motors"
+    statustopic: "/motor_controller/overheat"
+    message_substring: "Overheat"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Wheel Jam Detected"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Wheels"
+    statustopic: "/wheel_jam_detector/jam"
+    message_substring: "Jam detected"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Node Heartbeat Lost"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Node Manager"
+    statustopic: "/node_monitor/heartbeat_lost"
+    message_substring: "Heartbeat lost"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "Path Planner Timeout"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "Planner"
+    statustopic: "/planner/timeout"
+    message_substring: "Timeout"
+    expected_level: "OK"
+    invert_regex: false
+
+  - name: "System Resource Usage"
+    type: "diagnostic_aggregator/GenericAnalyzer"
+    path: "System"
+    statustopic: "/resource_monitor/high_usage"
+    message_substring: "High resource usage"
+    expected_level: "OK"
+    invert_regex: false
+
+analyzers:
+  - name: "CPU Usage"
+    type: "diagnostic_aggregator/Analyzer"
+    path: "System/CPU"
+    statustopic: "/diagnostics/cpu"
+    level_warn: 80
+    level_error: 95
+
+  - name: "Memory Usage"
+    type: "diagnostic_aggregator/Analyzer"
+    path: "System/Memory"
+    statustopic: "/diagnostics/memory"
+    level_warn: 85
+    level_error: 95
+
+  - name: "Disk Usage"
+    type: "diagnostic_aggregator/Analyzer"
+    path: "System/Disk"
+    statustopic: "/diagnostics/disk"
+    level_warn: 80
+    level_error: 95
+
+  - name: "ROS Master"
+    type: "diagnostic_aggregator/Analyzer"
+    path: "System/ROS Master"
+    statustopic: "/rosout_agg"
+    regex: ".*rosmaster.*"
+    expected_level: "OK"
